@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOLOv8 Detection with Voice Command</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            text-align: center;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #004080;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #004080;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #00254c;
+        }
+
+        p {
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        #start_voice {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #start_voice:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Controlled Object Detection system</h1>
+
+    <form action="/detect" method="post" enctype="multipart/form-data">
+        <label for="user_input">Enter classes:</label>
+        <input type="text" name="user_input" id="user_input" required>
+        
+        <!-- Add the file input for image -->
+        <input type="file" name="image" id="image_input" accept="image/*">
+        
+        <button type="submit">Detect</button>
+    </form>
+
+
+    <p>or</p>
+
+    <button id="start_voice">Start Voice Command</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if ('webkitSpeechRecognition' in window) {
+                const recognition = new webkitSpeechRecognition();
+                const userInputField = document.getElementById('user_input');
+
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    userInputField.value = transcript;
+                };
+
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error:', event.error);
+                };
+
+                document.getElementById('start_voice').addEventListener('click', () => {
+                    recognition.start();
+                });
+            } else {
+                console.error('Speech recognition not supported in this browser.');
+            }
+        });
+    </script>
+</body>
+</html>
