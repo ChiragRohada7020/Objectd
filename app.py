@@ -61,6 +61,26 @@ def process_file(file_path, classes):
 
     return max_counts
 
+
+def process_file3(file_path, classes,start_line):
+    max_counts = {class_name: 0 for class_name in classes}
+
+    with open(file_path, 'r') as file:
+        line_number = 1
+
+        for line in file:
+            if line_number >= start_line:
+
+                line = line.strip()
+                class_counts = extract_class_count(line, classes)
+                for class_name, count in class_counts.items():
+                    if count > max_counts[class_name]:
+                        max_counts[class_name] = count
+            line_number += 1
+
+
+    return max_counts
+
 # Sample file path
 
 
@@ -77,6 +97,11 @@ def parse_count(count_str):
 
 @app.route('/')
 def index():
+    return render_template('index.html')
+
+
+@app.route('/chat')
+def chat():
     return render_template('chat.html')
 
 
@@ -196,14 +221,29 @@ def output():
             return "Setting Alert For  "+msg1+ ", <spam class='font-semibold text-underline'>Provide me the conditions</spam> Deafult set is 3"
 
         # Find the maximum counts
-        max_counts = process_file(file_path, classes_of_interest)
+        xo=["maximum","max"]
+        if any(word in user_input for word in xo):
+
+            max_counts = process_file(file_path, classes_of_interest)
 
         # Print the maximum counts
-        msg=""
-        for class_name, count in max_counts.items():
-            msg=msg+"  "+f"Maximum count of <span class='font-bold'>{class_name}</span>: <span class='font-bold '>{count}</span>"
-            print(f"Maximum count of {class_name}: {count}")
-        return msg
+            msg=""
+            for class_name, count in max_counts.items():
+                msg=msg+"  "+f"Maximum count of <span class='font-bold'>{class_name}</span>: <span class='font-bold '>{count}</span>"
+                print(f"Maximum count of {class_name}: {count}")
+            return msg
+        else:
+            with open(file_path, 'r') as file:
+                start_line = sum(1 for _ in file)
+            max_counts = process_file3(file_path, classes_of_interest,start_line)
+
+        # Print the maximum counts
+            msg=""
+            for class_name, count in max_counts.items():
+                msg=msg+"  "+f"count of <span class='font-bold'>{class_name}</span>: <span class='font-bold '>{count}</span>"
+                print(f"count of {class_name}: {count}")
+            return msg
+
 
       
     return render_template("output.html")

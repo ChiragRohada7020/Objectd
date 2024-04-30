@@ -13,13 +13,13 @@
     <div class="flex h-screen">
         <!-- Sidebar -->
         <div class="bg-gray-800 text-white w-64 p-4 space-y-4">
-            <div class="text-xl font-semibold">ChatGPT</div>
+            <div class="text-xl font-semibold">Object Gpt</div>
             <div>
-                <div class="text-gray-300 text-sm">History</div>
+                <div class="text-gray-300 text-sm">Features</div>
 
                 <ul class="space-y-2 mt-3">
-                    <li ><a href="/">Detect</a></li>
-                    <li ><a href="/output">Info</a></li>
+                    <li ><a href="/chat">Detect</a></li>
+                    <li ><a href="/output">ChatRoom</a></li>
                     <!-- More conversations -->
                 </ul>
             </div>
@@ -113,7 +113,7 @@ outputArea.innerHTML += `
     .then(data => {
         outputArea.innerHTML += `
                     <div class="text-left">
-                        <div class="inline-block bg-gray-500 text-white rounded px-4 py-2">
+                        <div class="inline-block bg-red-600 text-white rounded px-4 py-2">
                             ${data}
 
                         </div>

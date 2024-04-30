@@ -18,8 +18,8 @@
                 <div class="text-gray-300 text-sm">Features</div>
 
                 <ul class="space-y-2 mt-3">
-                    <li ><a href="/">Detect</a></li>
-                    <li ><a href="/output">Info</a></li>
+                    <li ><a href="/chat">Detect</a></li>
+                    <li ><a href="/output">ChatRoom</a></li>
                     <!-- More conversations -->
                 </ul>
             </div>
@@ -28,15 +28,16 @@
         <!-- Chat Container -->
         <div class="flex flex-col flex-1">
             <div class="overflow-y-auto p-4 space-y-4 bg-gray-100 flex-1">
-                <div class="text-right">
-                    <div class="inline-block bg-blue-500 text-white rounded px-4 py-2">
-                        User message
-                    </div>
-                </div>
+                
                 <div class="text-left ">
                     <div class="inline-block bg-gray-300 rounded px-4 py-2">
-                        ChatGPT response
-                    </div>
+<p>                        Hey👋, I am Your Personal <span class="font-bold">
+    Object Gpt
+</span>
+</p>                
+<p>
+    You Can Ask Me Anything To Detect
+</p>     </div>
 
 
                 </div>
@@ -45,13 +46,22 @@
                         User message
                     </div>
                 </div>
-                <div class="text-left ">
+                <div class="text-left">
                     <div id="bot_text_1" class="inline-block bg-gray-300 rounded px-4 py-2 hidden">
+                        ChatGPT response
+                    </div>
+                    
+
+
+                </div>
+                <div class="text-left">
+                    <div id="bot_text_2" class="inline-block bg-gray-300 rounded px-4 py-2 hidden">
                         ChatGPT response
                     </div>
 
 
                 </div>
+                
             </div>
 
             <!-- Input Area -->
@@ -89,21 +99,29 @@
 function chat(){
     const chatResponse = document.getElementById('user_text_1');
     const botResponse = document.getElementById('bot_text_1');
+    const botResponse2 = document.getElementById('bot_text_2');
+
 
     const userInputField = document.getElementById('user_input').value;
 
 
     chatResponse.innerHTML = userInputField;
     botResponse.innerText="Detecting The Classes That You Have Provided"
+    botResponse2.innerHTML="You Can Visit <a class='text-blue-500 font-bold' href='/output'>Chat Room</a> To ask Query"
+
      // Update chat response
-    chatResponse.style.display = 'inline-block'; 
+    chatResponse.style.display = 'inline-block';
+ 
     botResponse.style.display = 'inline-block';// Display the chat response
+    botResponse2.style.display = 'inline-block';// Display the chat response
+
 }
     function submitForm() {
     const form = document.getElementById('detectForm');
     const formData = new FormData(form);
     const userInputField = document.getElementById('user_input');
     const chatResponse = document.getElementById('user_text_1');
+
 
     if (userInputField && chatResponse) {
         
@@ -116,6 +134,7 @@ function chat(){
         .then(data => {
             alert(data); // Display detection result or feedback
             chatResponse.innerText = `ChatGPT response: ${data}`; // Update chat response with detection result
+
         })
         .catch(error => {
             console.error('Error:', error);
